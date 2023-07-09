@@ -1,21 +1,19 @@
 
-<%@page import="ConnectionJDBC.ConnectionJDBC"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.SQLException"%>
+<%@page import="model.persistence.Usuario"%>
+<%@page import="controller.UsuarioController"%>
+<%@page import="view.FormUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
     <head>
 
-        <title>Cadastro</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Deletar</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
         <style>
+
             /* Import Google font - Poppins */
             @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
             * {
@@ -138,57 +136,34 @@
                     row-gap: 15px;
                 }
             }
-        </style> 
+        </style>
 
     </head>
     <body>
 
+        <%
+            Usuario user = new Usuario();
+            UsuarioController userController = new UsuarioController();
 
-        <%--
-            Connection con = new ConnectionJDBC().getConnection();
-            try {
+            user.setId(request.getParameter("id"));
 
-                Statement statement = con.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM tabela");
-                out.print("Sucesso");
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                e.getMessage();
-                out.print("Erro de conexao");
-            }
-
-        --%>
-
+        %>
 
         <section class="container">
-            <header>Formulário de cadastro</header>
 
-            <form name="DadosUsuario" action="salvarUsuario.jsp" method="get" class="form">
+            <header> 
+                <%if (userController.delete(user)) {
+            out.print("Apagou");
+        } else {
+            out.print("Não Apagou");
+        }%>
+            </header>
 
-                <div class="input-box">
-                    <label class="form-label" for="nome">Nome</label>
-                    <input name="nome" type="input" id="nome" placeholder="Digite seu nome" required />
-                </div>
-                <div class="input-box">
-                    <label class="form-label" for="nome">CPF</label>
-                    <input name="cpf" type="input" id="cpf" placeholder="Digite seu CPF" required />
-                </div>
-                <div class="input-box">
-                    <label class="form-label" for="nome">Telefone</label>
-                    <input name="telefone" type="input" id="telefone" placeholder="Digite seu telefone" required />
-                </div>
-                <div class="input-box">
-                    <label class="form-label" for="nome">Email</label>
-                    <input name="email" type="input" id="email" placeholder="Digite seu email" required />
-                </div>
-
-                <button type="submit" onclick="submit()" class="btn btn-primary">Salvar</button>
-                <br>
-                <button> <a href="listarUsuarios.jsp"  style="color: white; text-decoration: none;">Listar Usuarios</a> </button>
-
+            <form class="form">
+                <button> <a href="listarUsuarios.jsp"  style="color: white; text-decoration: none;">Voltar</a> </button>
             </form>
+
         </section>
 
     </body>
-</html
+</html>

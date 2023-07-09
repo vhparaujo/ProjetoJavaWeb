@@ -17,6 +17,7 @@ public class UsuarioDAO {
     private PreparedStatement psUsuario = null;
     private ResultSet rs = null; 
     
+    // metodo salvar
     public boolean salvar(Usuario user) throws ClassNotFoundException{
         con = new ConnectionJDBC().getConnection();
         
@@ -67,12 +68,28 @@ public class UsuarioDAO {
             user.setTelefone(rs.getString("telefone"));
             user.setEmail(rs.getString("email"));
             
-            
             listUsuarios.add(user);
        
         }
         
         return listUsuarios;
     }
+    
+    // metodo deletar
+    public boolean delete(Usuario user) throws ClassNotFoundException{ 
+        con = new ConnectionJDBC().getConnection();
+        try{  
+            psUsuario = con.prepareStatement("delete from usuario where id=?"); 
+            psUsuario.setString(1, user.getId());  
+            psUsuario.executeUpdate(); 
+            //psUsuario.close();
+            return true;
+        }catch(SQLException e){  
+            e.printStackTrace();
+            return false;
+        }  
+    }
+    
+    // metodo alterar
     
 }
